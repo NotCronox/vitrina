@@ -24,8 +24,11 @@
         var saved = JSON.parse(localStorage.getItem('vitrina:' + id + ':v2') || 'null')
         var fallback = { ambar: ['#0f0d0b', '#f3eadb'], lumiere: ['#fbf4ef', '#2d1b21'] }[id] || ['#0f0d0b', '#f3eadb']
         var c = saved && saved.config && saved.config.theme.colors
-        document.documentElement.style.setProperty('--v-bg', c ? c.bg : fallback[0])
-        document.documentElement.style.setProperty('--v-ink', c ? c.ink : fallback[1])
+        // Los colores de la última visita mandan: con Supabase no hay copia local de la tienda.
+        var last = JSON.parse(localStorage.getItem('vitrina:' + id + ':colores') || 'null')
+        var colors = last || (c ? [c.bg, c.ink] : fallback)
+        document.documentElement.style.setProperty('--v-bg', colors[0])
+        document.documentElement.style.setProperty('--v-ink', colors[1])
       } catch (e) {}
     </script>
   </head>
