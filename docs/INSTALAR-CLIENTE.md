@@ -66,7 +66,7 @@ Cloudflare Pages no cobra el tráfico en el plan gratuito y permite uso comercia
 5. **Save and Deploy**. Cada cambio que subas a GitHub se publica solo. Si cambias una variable, vuelve a desplegar desde **Deployments**.
 6. Opcional: **Custom domains** para conectar el dominio del negocio.
 
-Las rutas como `/admin` o `/catalogo` funcionan sin configurar nada: si no hay un `404.html`, Cloudflare responde con `index.html`. El archivo `netlify.toml` queda por si algún cliente prefiere Netlify.
+Las rutas como `/admin` o `/catalogo` funcionan sin configurar nada: si no hay un `404.html`, Cloudflare responde con `index.html`.
 
 ## 6. Ajustar la autenticación
 
