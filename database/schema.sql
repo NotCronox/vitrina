@@ -124,6 +124,10 @@ alter table public.categories   enable row level security;
 alter table public.products     enable row level security;
 alter table public.orders       enable row level security;
 
+-- Supabase puede dar todos los permisos a las tablas nuevas: se parte de cero.
+revoke all on public.admins, public.store_config, public.categories, public.products, public.orders from anon, authenticated;
+revoke all on sequence public.order_number_seq from anon, authenticated;
+
 grant select on public.store_config, public.categories, public.products to anon, authenticated;
 grant insert, update, delete on public.store_config, public.categories, public.products to authenticated;
 grant select, update, delete on public.orders to authenticated;
