@@ -12,7 +12,8 @@ function lockedTemplateInHtml(template: string): Plugin {
 }
 
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd())
+  // La carpeta del proyecto, no process.cwd(): Vite puede arrancarse desde otra carpeta.
+  const env = loadEnv(mode, fileURLToPath(new URL('.', import.meta.url)))
   return {
     plugins: [react(), tailwindcss(), lockedTemplateInHtml(env.VITE_PLANTILLA ?? '')],
     resolve: {
