@@ -2,6 +2,12 @@
 
 Motor de catalogos digitales marca blanca con pedidos por WhatsApp, desarrollado para el portafolio de Rasec Dev.
 
+**Demo en vivo:** https://vitrina-demo.pages.dev (el panel de administración se prueba libremente en `/admin`)
+
+- Ámbar: https://vitrina-demo.pages.dev/?plantilla=ambar
+- Lumière: https://vitrina-demo.pages.dev/?plantilla=lumiere
+- Tienda conectada a Supabase: https://vitrina-tienda.pages.dev
+
 Vitrina no es una tienda: es la base para montar la tienda de **cualquier negocio** sin tocar codigo. Todo lo que hace distinta a una tienda de otra (colores, tipografias, campos de producto, filtros, secciones del inicio, opciones de entrega y textos) vive en una configuracion que el motor lee y pinta.
 
 La demo incluye dos negocios ficticios construidos con el mismo codigo:
