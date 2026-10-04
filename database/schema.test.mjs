@@ -150,6 +150,11 @@ ok(bucket?.public === true, 'bucket de imágenes público creado')
 await expectError(as('authenticated', OTHER, () => db.query(`insert into storage.objects (bucket_id, name) values ('media', 'x.webp')`)), 'no admin no sube imágenes')
 await as('authenticated', ADMIN, () => db.query(`insert into storage.objects (bucket_id, name) values ('media', 'x.webp')`))
 ok(true, 'el admin sube imágenes')
+const listed = (rows) => rows.rows.length
+ok(listed(await as('authenticated', OTHER, () => db.query(`select name from storage.objects where bucket_id = 'media'`))) === 0, 'no admin no lista imágenes')
+ok(listed(await as('authenticated', ADMIN, () => db.query(`select name from storage.objects where bucket_id = 'media'`))) === 1, 'el admin lista imágenes')
+const removed = await as('authenticated', ADMIN, () => db.query(`delete from storage.objects where bucket_id = 'media' and name = 'x.webp' returning name`))
+ok(listed(removed) === 1, 'el admin borra imágenes')
 
 // --- Tiempo real ---
 const pub = (await db.query(`select string_agg(tablename, ',' order by tablename) t from pg_publication_tables where pubname = 'supabase_realtime'`)).rows[0].t

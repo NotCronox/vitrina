@@ -335,6 +335,12 @@ insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_typ
 values ('media', 'media', true, 5242880, array['image/webp', 'image/jpeg', 'image/png', 'image/avif', 'image/gif'])
 on conflict (id) do update set public = true;
 
+-- Las URL publicas no pasan por estas reglas. Leer la tabla sirve para listar y
+-- borrar archivos, y eso es solo para administradores.
+drop policy if exists media_admin_select on storage.objects;
+create policy media_admin_select on storage.objects for select to authenticated
+  using (bucket_id = 'media' and public.is_admin());
+
 drop policy if exists media_admin_insert on storage.objects;
 create policy media_admin_insert on storage.objects for insert to authenticated
   with check (bucket_id = 'media' and public.is_admin());

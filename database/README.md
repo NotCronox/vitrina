@@ -35,4 +35,4 @@ Todo el esquema está en [`schema.sql`](schema.sql). Se ejecuta completo en el *
 npm run test:db
 ```
 
-[`schema.test.mjs`](schema.test.mjs) levanta Postgres en WebAssembly ([PGlite](https://pglite.dev)), simula lo mínimo de Supabase (roles `anon` y `authenticated`, `auth.uid()`, `storage`, publicación de tiempo real), ejecuta el esquema dos veces y verifica 37 casos: permisos por rol, cálculo de pedidos en el servidor, validaciones, integridad referencial, imágenes y tiempo real.
+[`schema.test.mjs`](schema.test.mjs) levanta Postgres en WebAssembly ([PGlite](https://pglite.dev)), simula lo mínimo de Supabase (roles `anon` y `authenticated`, `auth.uid()`, `storage`, publicación de tiempo real), ejecuta el esquema dos veces y verifica 40 casos: permisos por rol, cálculo de pedidos en el servidor, validaciones, integridad referencial, imágenes y tiempo real.
