@@ -4,7 +4,7 @@ Guía para montar la tienda de un negocio nuevo en unos 15 minutos, sin costo pa
 
 Cada cliente tiene **su propio proyecto de Supabase en su propia cuenta**. Así el límite de proyectos gratuitos nunca es un problema y el negocio es dueño de sus datos. Tú lo configuras con acceso que te comparta, o con él al lado.
 
-> Supabase y Netlify cambian sus pantallas de vez en cuando. Si un nombre de menú no coincide, busca la opción equivalente.
+> Supabase y Cloudflare cambian sus pantallas de vez en cuando. Si un nombre de menú no coincide, busca la opción equivalente.
 
 ---
 
@@ -40,26 +40,39 @@ En **Project Settings → API** (o **API Keys**) copia:
 
 Esta llave es pública por diseño: la seguridad está en las reglas RLS de la base. **Nunca** uses la llave `service_role` / `secret` en la tienda.
 
-## 5. Publicar en Netlify
+## 5. Publicar en Cloudflare Pages
 
-1. En [netlify.com](https://netlify.com): **Add new site → Import an existing project** y conecta el repositorio.
-2. Netlify toma la configuración de `netlify.toml` (comando `npm run build`, carpeta `dist`).
-3. En **Site configuration → Environment variables** agrega:
+Cloudflare Pages no cobra el tráfico en el plan gratuito y permite uso comercial. Lo ideal es usar la cuenta de Cloudflare del cliente.
+
+1. En [dash.cloudflare.com](https://dash.cloudflare.com): **Workers & Pages → Create application → Pages → Import an existing Git repository**.
+2. Conecta GitHub (dale acceso solo al repositorio de la tienda) y elígelo.
+3. Configuración de la compilación:
+
+   | Campo | Valor |
+   | --- | --- |
+   | Framework preset | None |
+   | Build command | `npm run build` |
+   | Build output directory | `dist` |
+
+4. En **Environment variables** agrega:
 
    | Variable | Valor |
    | --- | --- |
    | `VITE_SUPABASE_URL` | la Project URL |
    | `VITE_SUPABASE_ANON_KEY` | la llave anon/publishable |
+   | `NODE_VERSION` | `22` |
    | `VITE_PLANTILLA` | opcional: `ambar`, `lumiere`... Es la plantilla que se ve antes del primer ingreso. |
 
-4. **Deploy**. Si luego cambias una variable, vuelve a desplegar.
-5. Opcional: **Domain management** para conectar el dominio del negocio.
+5. **Save and Deploy**. Cada cambio que subas a GitHub se publica solo. Si cambias una variable, vuelve a desplegar desde **Deployments**.
+6. Opcional: **Custom domains** para conectar el dominio del negocio.
+
+Las rutas como `/admin` o `/catalogo` funcionan sin configurar nada: si no hay un `404.html`, Cloudflare responde con `index.html`. El archivo `netlify.toml` queda por si algún cliente prefiere Netlify.
 
 ## 6. Ajustar la autenticación
 
 En Supabase, **Authentication → URL Configuration**:
 
-- **Site URL**: `https://<la-tienda>.netlify.app/admin` (o el dominio propio + `/admin`).
+- **Site URL**: `https://<la-tienda>.pages.dev/admin` (o el dominio propio + `/admin`).
 
 Así los enlaces de recuperación de contraseña llevan directo al panel.
 

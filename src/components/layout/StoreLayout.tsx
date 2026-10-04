@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { Outlet, ScrollRestoration } from 'react-router'
 import { IS_SHOWCASE } from '@/config/mode'
 import { useLiveSync, useStore } from '@/data'
+import { useDemo } from '@/state/demo'
 import { IS_PREVIEW, announcePreviewReady, startPreviewBridge } from '@/state/preview'
 import { applyTheme } from '@/theme/applyTheme'
 import { CartDrawer } from '@/components/cart/CartDrawer'
@@ -18,10 +19,18 @@ export function StoreLayout() {
   const { data, isPending, isError, refetch } = useStore()
   const theme = data?.config.theme
   const ready = Boolean(data)
+  const templateId = useDemo((s) => s.templateId)
 
   useEffect(() => {
-    if (theme) applyTheme(theme)
-  }, [theme])
+    if (!theme) return
+    applyTheme(theme)
+    // index.html lo lee en la próxima visita para pintar el fondo correcto antes de React.
+    if (!IS_PREVIEW) {
+      try {
+        localStorage.setItem(`vitrina:${templateId}:colores`, JSON.stringify([theme.colors.bg, theme.colors.ink]))
+      } catch {}
+    }
+  }, [theme, templateId])
 
   useEffect(() => {
     if (ready) announcePreviewReady()
