@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0f0d0b" />
+    <meta name="description" content="Vitrina: catálogos digitales autogestionables con pedidos por WhatsApp." />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://images.unsplash.com" />
+    <title>Vitrina</title>
+    <script>
+      // Pinta el fondo del tema guardado antes de que cargue React, para evitar destellos.
+      try {
+        // Mismo orden que src/config/mode.ts: plantilla fija del cliente, enlace ?plantilla= y luego la recordada.
+        var locked = '__VITRINA_PLANTILLA__'
+        var fromUrl = new URLSearchParams(location.search).get('plantilla')
+        var id =
+          locked ||
+          fromUrl ||
+          (JSON.parse(localStorage.getItem('vitrina:demo') || '{}').state || {}).templateId ||
+          'ambar'
+        var saved = JSON.parse(localStorage.getItem('vitrina:' + id + ':v2') || 'null')
+        var fallback = { ambar: ['#0f0d0b', '#f3eadb'], lumiere: ['#fbf4ef', '#2d1b21'] }[id] || ['#0f0d0b', '#f3eadb']
+        var c = saved && saved.config && saved.config.theme.colors
+        document.documentElement.style.setProperty('--v-bg', c ? c.bg : fallback[0])
+        document.documentElement.style.setProperty('--v-ink', c ? c.ink : fallback[1])
+      } catch (e) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
